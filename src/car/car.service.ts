@@ -28,6 +28,12 @@ export class CarService {
       color: 'SILVER',
       brand: 'Vols',
     },
+    {
+      id: 5,
+      name: 'VW ID4',
+      color: 'SILVER',
+      brand: 'Vols',
+    },
   ];
 
   findll() {
