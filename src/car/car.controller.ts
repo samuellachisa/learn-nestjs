@@ -13,7 +13,6 @@ import {
 import { Car } from './entities/car.entity';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateCarDto } from './dto/create-car.dto';
-
 @Controller('car')
 @ApiTags('Car')
 export class CarController {
