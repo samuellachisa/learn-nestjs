@@ -30,7 +30,7 @@ export class CarService {
     },
     {
       id: 5,
-      name: 'VW ID4444444444444444444',
+      name: 'VW ID4',
       color: 'SILVER',
       brand: 'Vols',
     },
