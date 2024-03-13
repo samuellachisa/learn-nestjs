@@ -9,14 +9,11 @@ import {
   Param,
   Patch,
   Post,
+  Res,
 } from '@nestjs/common';
 import { Car } from './entities/car.entity';
-import { CreateCarDto } from './dto/create-car.dto';
-import { UpdateCarDto } from './dto/update-car.dto';
-import { ApiTags } from '@nestjs/swagger';
 
-@ApiTags('Car')
-@Controller('Car')
+@Controller('car')
 export class CarController {
   constructor(private readonly carService: CarService) {}
   @Get()
@@ -24,18 +21,17 @@ export class CarController {
     return this.carService.findll();
   }
   @Get(':id')
-  @HttpCode(HttpStatus.ACCEPTED)
+  @HttpCode(HttpStatus.GONE)
   findOne(@Param('id') id: string) {
     return this.carService.findOne(id);
   }
   @Post()
-  create(@Body() createCarDto: CreateCarDto) {
-    console.log('dto', createCarDto);
-    return this.carService.create(createCarDto);
+  create(@Body() body) {
+    return this.carService.create(body);
   }
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCarDto: UpdateCarDto) {
-    return this.carService.update(id, updateCarDto);
+  update(@Param('id') id: string, @Body() body) {
+    return this.carService.update(id, body);
   }
   @Delete(':id')
   delete(@Param('id') id: string) {
