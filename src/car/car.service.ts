@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Car } from './entities/car.entity';
 
 @Injectable()
@@ -42,6 +42,9 @@ export class CarService {
   update(id: string, updateCarDto: any) {
     const existingCar = this.findOne(id);
     if (existingCar) {
+      return updateCarDto;
+    } else {
+      throw new NotFoundException(id);
     }
   }
   remove(id: string) {
