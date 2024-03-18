@@ -1,5 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Car } from './entities/car.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { CreateCarDto } from './dto/create-car.dto';
+import { UpdateCarDto } from './dto/update-car.dto';
 
 @Injectable()
 export class CarService {
@@ -36,21 +40,33 @@ export class CarService {
     },
   ];
 
-  findll() {
-    return this.car;
+  constructor(
+    @InjectRepository(Car) private readonly carRepository: Repository<Car>,
+  ) {}
+
+  async findll(): Promise<Car[]> {
+    return await this.carRepository.find();
   }
-  findOne(id: string) {
-    return this.car.find((item) => item.id === +id);
+  async findOne(id: string) {
+    const car = await this.carRepository.findOne({ where: { id: +id } });
+    if (!car) {
+      throw new NotFoundException(`Car #${id} not found`);
+    }
+    return car;
   }
-  create(createCarDto: any) {
-    this.car.push(createCarDto);
+  create(createCarDto: CreateCarDto) {
+    const car = this.carRepository.create(createCarDto);
+    return this.carRepository.save(car);
   }
-  update(id: string, updateCarDto: any) {
-    const existingCar = this.findOne(id);
-    if (existingCar) {
-      return updateCarDto;
+  async update(id: string, updateCarDto: UpdateCarDto) {
+    const existingCar = await this.carRepository.preload({
+      id: +id,
+      ...updateCarDto,
+    });
+    if (!existingCar) {
+      throw new NotFoundException(`Car #${id} not found`);
     } else {
-      throw new NotFoundException(id);
+      return this.carRepository.save(existingCar);
     }
   }
   remove(id: string) {
