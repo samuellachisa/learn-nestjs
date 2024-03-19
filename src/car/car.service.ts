@@ -7,45 +7,15 @@ import { UpdateCarDto } from './dto/update-car.dto';
 
 @Injectable()
 export class CarService {
-  private car: Car[] = [
-    {
-      id: 1,
-      name: 'TOYOTA MX2',
-      color: 'Black',
-      brand: 'TOYOTA',
-    },
-    {
-      id: 2,
-      name: 'TOYOTA MX4',
-      color: 'Black',
-      brand: 'TOYOTA',
-    },
-    {
-      id: 3,
-      name: 'TOYOTA MX6',
-      color: 'Black',
-      brand: 'TOYOTA',
-    },
-    {
-      id: 4,
-      name: 'VW ID6',
-      color: 'SILVER',
-      brand: 'Vols',
-    },
-    {
-      id: 5,
-      name: 'VW ID4',
-      color: 'SILVER',
-      brand: 'Vols',
-    },
-  ];
+  private car: Car[] = [];
 
   constructor(
     @InjectRepository(Car) private readonly carRepository: Repository<Car>,
   ) {}
 
   async findll(): Promise<Car[]> {
-    return await this.carRepository.find();
+    const cars = await this.carRepository.find();
+    return cars;
   }
   async findOne(id: string) {
     const car = await this.carRepository.findOne({ where: { id: +id } });

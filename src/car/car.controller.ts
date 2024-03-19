@@ -18,7 +18,7 @@ import { CreateCarDto } from './dto/create-car.dto';
 export class CarController {
   constructor(private readonly carService: CarService) {}
   @Get()
-  findAll(): Car[] {
+  findAll(): Promise<Car[]> {
     return this.carService.findll();
   }
   @Get(':id')
